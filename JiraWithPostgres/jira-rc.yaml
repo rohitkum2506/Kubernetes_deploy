@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: setupjira
+spec:
+  selector:
+      name: setupjira
+  template:
+    metadata:
+      labels:
+        name: setupjira
+      name: setupjira  
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: setupjjira
+        image: linkyard/setup-jira-instance:latest
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8080
+            name: http-server        
+        env:
+        - name: JIRA_URL
+          value: https://my-jira-instance.com
+        - name: JIRA_TITLE
+          value: csi-jira
+        - name: ATLASSIAN_USER
+          value: rohit@cambridgesemantics.com
+        - name: ATLASSIAN_PASSWORD
+          value: secret
+        - name: ATLASSIAN_ORG
+          value: My Company
+        - name: PUBLIC_SIGNUP
+          value: "false"
+        - name: ADMIN_EMAIL
+          value: admin@mycompany.com
+        - name: DB_TYPE
+          value: PostgreSQL
+        - name: DB_HOST
+          value: postgres
+        - name: DB_POST
+          value: "5432"
